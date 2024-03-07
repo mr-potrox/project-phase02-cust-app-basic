@@ -13,7 +13,7 @@ function App(props) {
   const getCustomers =  function(){
     setCustomers(getAll());
   }
-    // Declare the handleListClick() method.
+  // Declare the handleListClick() method.
   const handleListClick = function(item){
     // Checking if the user selected the same record from
     // the customer list  twice or more
