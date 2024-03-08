@@ -69,6 +69,7 @@ div#root {
 
 .selected {
   font-weight: bold;
+  background-color: darkseagreen;
 }
 
 table#customer-add-update tbody tr td.label{
@@ -88,4 +89,15 @@ table#customer-add-update tbody tr td.label{
 .password-field-hide {
   -webkit-text-security: disc;
   text-security: disc;
+}
+h2{
+  text-align: center;
+  color: brown;
+  padding-top: 5px;
+}
+#root{
+  margin: 0px auto;
+}
+body{
+  background-color: gainsboro;
 }

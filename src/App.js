@@ -100,6 +100,7 @@ function App(props) {
 
   return (
     <React.Fragment>
+      <h2>Basic React app</h2>
       <div className="boxed" >
         <h4>Customer List</h4>
         <table id="customer-list">
