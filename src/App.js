@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { getAll, post, put, deleteById } from './memdb.js'
+import { getAll, post, put, deleteById, validateEmail} from './memdb.js'
 import './App.css';
 
 function App(props) {
@@ -53,25 +53,28 @@ function App(props) {
 
   // Declare the onSaveClick() method.
   let onSaveClick = function () {
-    // adding the nonempty records validation to avoid 
-    // the insertion of the blank record.
-    if (formObject.name.length === 0 && 
-        formObject.email.length === 0 && 
-        formObject.password.length === 0) {
-      alert('You must fill at least one field before you save the form');
-    }
-    else{
-      // Adding the new record send it by the user
-      if (mode === 'Add') {
-        // Adding the new register.
-        post(formObject);
+    // Adding the email validation to avoid inserting wrong data.
+    if (validateEmail(formObject.email)) {
+      // adding the nonempty records validation to avoid 
+      // the insertion of the blank record.
+      if (formObject.name.length === 0 && 
+          formObject.email.length === 0 && 
+          formObject.password.length === 0) {
+        alert('You must fill at least one field before you save the form');
       }
-      if (mode === 'Update') {
-        // Saving the new data for the register that is being updated
-        put(formObject.id, formObject);
-      }
-      // Cleaning up the adding form
-      setFormObject(blankCustomer);
+      else{
+        // Adding the new record send it by the user
+        if (mode === 'Add') {
+          // Adding the new register.
+          post(formObject);
+        }
+        if (mode === 'Update') {
+          // Saving the new data for the register that is being updated
+          put(formObject.id, formObject);
+        }
+        // Cleaning up the adding form
+        setFormObject(blankCustomer);
+      } 
     }
   }
 

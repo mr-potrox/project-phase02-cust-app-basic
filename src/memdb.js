@@ -72,6 +72,16 @@ function getNextId(){
   return maxid + 1;
 }
 
+export function validateEmail(email) {
+  var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  var result = regex.test(email);
+  if(result === true){
+    return true;//Proceed further
+  }
+  else{
+    alert("Enter correct email address!")
+  }
+}
 
 export default items;
 
