@@ -6,6 +6,8 @@ function App(props) {
   let blankCustomer = { "id": -1, "name": "", "email": "", "password": "" };
   const [customers, setCustomers] = useState([]);
   const [formObject, setFormObject] = useState(blankCustomer);
+  const [isValidEmail, setIsValidEmail] = useState(true);
+
   let mode = (formObject.id >= 0) ? 'Update' : 'Add';
   useEffect(() => { getCustomers() }, []);
   
@@ -29,6 +31,11 @@ function App(props) {
   const handleInputChange = function (event) {
     const name = event.target.name;
     const value = event.target.value;
+    if (name == 'email' && !validateEmail(formObject.email)) {
+      setIsValidEmail(false);
+    }else{
+      setIsValidEmail(true);
+    }
     let newFormObject = {...formObject}
     newFormObject[name] = value;
     // Cleaning up the adding form
@@ -43,38 +50,50 @@ function App(props) {
 
   // Declare the onDeleteClick() method.
   let onDeleteClick = function () {
-    if(formObject.id >= 0){
-    // Deleting the selected register from the Customelist
-      deleteById(formObject.id);
+    // Adding the email validation to avoid inserting wrong data.
+    if (formObject.name.length === 0 && 
+      formObject.email.length === 0 &&
+      formObject.password.length === 0) {
+      alert('You must select at least one record from the customer list before you try to delete');
     }
-    // Cleaning up the adding form
-    setFormObject(blankCustomer);
+    else{
+      if(formObject.id >= 0){
+      // Deleting the selected register from the Customelist
+        deleteById(formObject.id);
+      }
+      // Cleaning up the adding form
+      setFormObject(blankCustomer);
+    }
   }
 
   // Declare the onSaveClick() method.
   let onSaveClick = function () {
-    // Adding the email validation to avoid inserting wrong data.
-    if (validateEmail(formObject.email)) {
+   
       // adding the nonempty records validation to avoid 
       // the insertion of the blank record.
-      if (formObject.name.length === 0 && 
+      if (formObject.name.length === 0 &&
           formObject.email.length === 0 && 
           formObject.password.length === 0) {
         alert('You must fill at least one field before you save the form');
       }
       else{
-        // Adding the new record send it by the user
-        if (mode === 'Add') {
-          // Adding the new register.
-          post(formObject);
+         // Adding the email validation to avoid inserting wrong data.
+        if (formObject.email.length !== 0 && !validateEmail(formObject.email)) {
+          alert("Enter correct email address!")
+          
+        } else{
+          // Adding the new record send it by the user
+          if (mode === 'Add') {
+            // Adding the new register.
+            post(formObject);
+          }
+          if (mode === 'Update') {
+            // Saving the new data for the register that is being updated
+            put(formObject.id, formObject);
+          }
+          // Cleaning up the adding form
+          setFormObject(blankCustomer);
         }
-        if (mode === 'Update') {
-          // Saving the new data for the register that is being updated
-          put(formObject.id, formObject);
-        }
-        // Cleaning up the adding form
-        setFormObject(blankCustomer);
-      } 
     }
   }
 
@@ -134,6 +153,7 @@ function App(props) {
                 <td><input
                   type="email"
                   name="email"
+                  className={`input-email ${ !isValidEmail ? "wrong-email" : ""}`}
                   onChange={(e) => handleInputChange(e)}
                   value={formObject.email}
                   placeholder="name@company.com" /></td>
@@ -141,6 +161,7 @@ function App(props) {
               <tr>
                 <td className={'label'} >Pass:</td>
                 <td><input
+                  className={'password-field-hide'}
                   type="text"
                   name="password"
                   onChange={(e) => handleInputChange(e)}

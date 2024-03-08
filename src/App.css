@@ -81,3 +81,11 @@ table#customer-add-update tbody tr td.label{
   border: 0px;
 }
 
+.wrong-email {
+  box-sizing: border-box;
+  border: 2px solid red;
+}
+.password-field-hide {
+  -webkit-text-security: disc;
+  text-security: disc;
+}
